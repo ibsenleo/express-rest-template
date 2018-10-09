@@ -17,10 +17,12 @@ import db from './config/initializers/database'
 // .env file
 dotenv.config()
 // Set up configs
-config.use('memory');
+config.use('memory'); // in-memory storage engine that stores a nested JSON representation of the configuration. 
+
 // First load command line arguments
 config.argv();
-// Load environment variables
+
+// Load environment variables (.env)
 config.env();
 
 config.set('PUBLIC_DIR', path.join(__dirname, config.get('PUBLIC_FOLDER')))

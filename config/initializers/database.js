@@ -6,13 +6,25 @@ var pool
 
 export default {
     initPool() {
-        logger.info('[DB] Database pool created!')
+        
         pool = mysql.createPool({
             host     : config.get('MYSQL_SERVER'),
             user     : config.get('MYSQL_USER'),
             password : config.get('MYSQL_PASSWORD'),
             database : config.get('MYSQL_DATABASE')
         });
+
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                // console.log(err);
+                logger.error('[DB] ' + err.code + ': ' + err.sqlMessage); // not connected!
+            } 
+            else if (connection) {
+                logger.info('[DB] Database pool created!');
+                connection.release();
+            };
+        });
+        
     },
     getPool() {
         if (!pool) 
